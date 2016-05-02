@@ -28,8 +28,8 @@ type Game struct {
 
 	// An array of the players. The order stays the same during the
 	// entire tournament
-	Players []Player `json:"players"`
+	Players []*Player `json:"players"`
 
 	// Finally the array of community cards.
-	CommunityCards []Card `json:"community_cards"`
+	CommunityCards []*Card `json:"community_cards"`
 }
