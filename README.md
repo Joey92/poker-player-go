@@ -23,25 +23,29 @@ Install Godep
 ```Go
 package main
 
-import poker "github.com/lean-poker/poker-player-go"
+import (
+    poker "github.com/lean-poker/poker-player-go"
+    "github.com/lean-poker/poker-player-go/leanpoker"
+)
 
-type player struct{}
-    
+
+type Player struct{}
+
 func (p *Player) BetRequest(state *leanpoker.Game) int {
-    // handle bet request, return money
-    return 0
+    return 0;
 }
 
 func (p *Player) Showdown(state *leanpoker.Game) {
-    // handle show down
+    
 }
 
 func (p *Player) Version() string {
-    return "My folding Go bot"
+    return "Default folding Go player"
 }
 
 func main() {
     p := &Player{}
+    
     poker.Start(p)
 }
 ```
