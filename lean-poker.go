@@ -15,7 +15,7 @@ import (
 // The current player
 var pokerPlayer player.Player
 
-// Start makes the Bot listen for incoming HTTP requests from teh Lean Poker Server.
+// Start makes the Bot listen for incoming HTTP requests from the Lean Poker Server.
 func Start(p player.Player) {
 	port, err := strconv.Atoi(os.Getenv("PORT"))
 	if err != nil {
