@@ -1,4 +1,4 @@
-package main
+package poker
 
 import (
 	"encoding/json"
@@ -12,11 +12,17 @@ import (
 	"github.com/lean-poker/poker-player-go/player"
 )
 
-func main() {
+// The current player
+var pokerPlayer player.Player
+
+// Start makes the Bot listen for incoming HTTP requests from teh Lean Poker Server.
+func Start(p player.Player) {
 	port, err := strconv.Atoi(os.Getenv("PORT"))
 	if err != nil {
 		port = 4711
 	}
+	
+	pokerPlayer = p
 
 	http.HandleFunc("/", handleRequest)
 	if err := http.ListenAndServe(fmt.Sprintf(":%d", port), nil); err != nil {
@@ -43,7 +49,7 @@ func handleRequest(w http.ResponseWriter, request *http.Request) {
 			return
 		}
 
-		result := player.BetRequest(game)
+		result := pokerPlayer.BetRequest(game)
 		fmt.Fprintf(w, "%d", result)
 	case "showdown":
 		game, err := parseGame(request.FormValue("game_state"))
@@ -52,16 +58,17 @@ func handleRequest(w http.ResponseWriter, request *http.Request) {
 			return
 		}
 
-		player.Showdown(game)
+		pokerPlayer.Showdown(game)
 		fmt.Fprint(w, "")
 	case "version":
-		fmt.Fprint(w, player.Version())
+		fmt.Fprint(w, pokerPlayer.Version())
 	default:
 		http.Error(w, "Invalid action", 400)
 	}
 }
 
 func parseGame(stateStr string) (game *leanpoker.Game, err error) {
+	game = &leanpoker.Game{}
 	if err = json.Unmarshal([]byte(stateStr), game); err != nil {
 		log.Printf("Error parsing game state: %s", err)
 		return nil, err
