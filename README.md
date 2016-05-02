@@ -11,10 +11,44 @@ See [Deploying Go Apps on Heroku](https://devcenter.heroku.com/articles/deployin
 
 ### Workflow
 
-1. Fork this repo
-2. `go get` your fork
-3. Fix import path in your copy
-4. Update dependencies with `godep save -r ./...`
-5. Inspect and commit changes
-6. Push changes to your fork's default branch (normally `master`)
-7. Deploy to Heroku
+## Prerequisites:
+
+Install Godep
+```go get github.com/tools/godep```
+
+## Create your project
+## Get the lean-poker library 
+```go get github.com/lean-poker/poker-player-go```
+## Start using the library
+```Go
+package main
+
+import poker "github.com/lean-poker/poker-player-go"
+
+type player struct{}
+    
+func (p *Player) BetRequest(state *leanpoker.Game) int {
+    // handle bet request, return money
+    return 0
+}
+
+func (p *Player) Showdown(state *leanpoker.Game) {
+    // handle show down
+}
+
+func (p *Player) Version() string {
+    return "My folding Go bot"
+}
+
+func main() {
+    p := &Player{}
+    poker.Start(p)
+}
+```
+
+## Save dependencies in Godep. Mind the 3 dots!
+```
+Godep save ./...
+```
+
+## Push to Heroku!
